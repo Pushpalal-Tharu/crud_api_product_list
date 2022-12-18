@@ -1,4 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+
     package="com.example.crud_api_product_list">
    <application
         android:label="crud_api_product_list"
@@ -31,4 +32,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
+    
+    <!-- Required to fetch data from the internet. -->
+<uses-permission android:name="android.permission.INTERNET" />
+    
 </manifest>
+
