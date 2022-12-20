@@ -46,46 +46,40 @@ class _HomePageState extends State<HomePage> {
                 if (snapshot.hasData) {
                   // return Text(snapshot.data!.name);
 
-                  return ListView.builder(
-                    itemCount: productList.length,
-                    itemBuilder: (context, index) {
-                      // return Text(index.toString());
-                      // return Text(productList[index].name.toString());
-                      return Card(
-                        elevation: 2,
-                        margin: EdgeInsets.all(10),
-                        color: Colors.white70,
-                        child: Column(
-                          children: [
-                            ListTile(
-                              leading: Image.network(
-                                productList[index].image.toString(),
-                                width: 50,
-                                height: 50,
-                                fit: BoxFit.cover,
+                  return Expanded(
+                    child: ListView.builder(
+                      padding: const EdgeInsets.all(8.0),
+                      itemCount: productList.length,
+                      itemBuilder: (context, index) {
+                        // return Text(index.toString());
+                        // return Text(productList[index].name.toString());
+                        return Card(
+                          elevation: 2,
+                          margin: EdgeInsets.all(10),
+                          color: Colors.white70,
+                          child: Column(
+                            children: [
+                              ListTile(
+                                leading: Image.network(
+                                  productList[index].image.toString(),
+                                  width: 50,
+                                  height: 50,
+                                  fit: BoxFit.cover,
+                                ),
+                                title: Text(productList[index].name.toString()),
+                                subtitle:
+                                    Text(productList[index].desc.toString()),
+                                trailing: Text(
+                                    style: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                    "\$" + productList[index].price.toString()),
                               ),
-                              title: Text(productList[index].name.toString()),
-                              subtitle:
-                                  Text(productList[index].desc.toString()),
-                              trailing: Text(
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold),
-                                  "\$" + productList[index].price.toString()),
-                            ),
-                            // Container(
-                            //   alignment: Alignment.bottomRight,
-                            //   child: ElevatedButton(
-                            //     onPressed: () {},
-                            //     child: Icon(Icons.add),
-                            //   ),
-                            // )
-
-                            // Text("${index + 1}"),
-                          ],
-                        ),
-                      );
-                    },
+                            ],
+                          ),
+                        );
+                      },
+                    ),
                   );
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');

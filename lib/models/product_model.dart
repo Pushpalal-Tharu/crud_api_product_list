@@ -1,75 +1,50 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
+// To parse this JSON data, do
+//
+//     final product = productFromJson(jsonString);
+
 import 'dart:convert';
 
+List<Product> productFromJson(String str) =>
+    List<Product>.from(json.decode(str).map((x) => Product.fromJson(x)));
+
+String productToJson(List<Product> data) =>
+    json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
+
 class Product {
-  int? _id;
-  String? _name;
-  String? _desc;
-  int? _price;
-  String? _color;
-  String? _image;
+  Product({
+    required this.id,
+    required this.name,
+    required this.desc,
+    required this.price,
+    required this.color,
+    required this.image,
+  });
 
-  Product(
-      {int? id,
-      String? name,
-      String? desc,
-      int? price,
-      String? color,
-      String? image}) {
-    if (id != null) {
-      this._id = id;
-    }
-    if (name != null) {
-      this._name = name;
-    }
-    if (desc != null) {
-      this._desc = desc;
-    }
-    if (price != null) {
-      this._price = price;
-    }
-    if (color != null) {
-      this._color = color;
-    }
-    if (image != null) {
-      this._image = image;
-    }
-  }
+  final int id;
+  final String name;
+  final String desc;
+  final int price;
+  final String color;
+  final String image;
 
-  int? get id => _id;
-  set id(int? id) => _id = id;
-  String? get name => _name;
-  set name(String? name) => _name = name;
-  String? get desc => _desc;
-  set desc(String? desc) => _desc = desc;
-  int? get price => _price;
-  set price(int? price) => _price = price;
-  String? get color => _color;
-  set color(String? color) => _color = color;
-  String? get image => _image;
-  set image(String? image) => _image = image;
+  factory Product.fromJson(Map<dynamic, dynamic> json) => Product(
+        id: json["id"] == null ? null : json["id"],
+        name: json["name"] == null ? null : json["name"],
+        desc: json["desc"] == null ? null : json["desc"],
+        price: json["price"] == null ? null : json["price"],
+        color: json["color"] == null ? null : json["color"],
+        image: json["image"] == null ? null : json["image"],
+      );
 
-  Product.fromJson(Map<dynamic, dynamic> json) {
-    _id = json['id'];
-    _name = json['name'];
-    _desc = json['desc'];
-    _price = json['price'];
-    _color = json['color'];
-    _image = json['image'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['name'] = this._name;
-    data['desc'] = this._desc;
-    data['price'] = this._price;
-    data['color'] = this._color;
-    data['image'] = this._image;
-    return data;
-  }
+  Map<String, dynamic> toJson() => {
+        "id": id == null ? null : id,
+        "name": name == null ? null : name,
+        "desc": desc == null ? null : desc,
+        "price": price == null ? null : price,
+        "color": color == null ? null : color,
+        "image": image == null ? null : image,
+      };
 }
-
 
 
 // [

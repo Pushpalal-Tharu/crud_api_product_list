@@ -12,16 +12,17 @@ import 'package:http/http.dart' as http;
 // Step:2
 /* Convert the htt.Response to a Product */
 List<Product> productList = [];
+
 Future<List<Product>> fetchProduct() async {
   final response = await http.get(
       Uri.parse("https://6396d55077359127a023e18b.mockapi.io/product_list"));
 
-  var data = jsonDecode(response.body.toString());
+  var data = jsonDecode(response.body);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,
     // then parse the JSON.
-    productList.clear();
+    // productList.clear();
     for (Map i in data) {
       productList.add(Product.fromJson(i));
     }
@@ -37,16 +38,22 @@ void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Fetch Product List From The Server',
+      title: 'Home Page',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Fetch Product List From The Server'),
+      home: const HomePage(title: 'Home Page'),
     );
   }
 }
