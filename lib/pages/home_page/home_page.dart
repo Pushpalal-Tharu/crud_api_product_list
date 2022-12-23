@@ -95,6 +95,15 @@ class _HomePageState extends State<HomePage> {
 
                         // List Item
                         return GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ProductAdded()),
+                              );
+                            });
+                          },
                           child: Card(
                             elevation: 2,
                             margin: EdgeInsets.all(10),
