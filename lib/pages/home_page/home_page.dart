@@ -94,32 +94,36 @@ class _HomePageState extends State<HomePage> {
                         // return Text(productList[index].name.toString());
 
                         // List Item
-                        return Card(
-                          elevation: 2,
-                          margin: EdgeInsets.all(10),
-                          color: Colors.white70,
-                          child: Column(
-                            children: [
-                              ListTile(
-                                leading: Image.network(
-                                    "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-iphone-12-pro-gold-2020?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1635202844000"
+                        return GestureDetector(
+                          child: Card(
+                            elevation: 2,
+                            margin: EdgeInsets.all(10),
+                            color: Colors.white70,
+                            child: Column(
+                              children: [
+                                ListTile(
+                                  leading: Image.network(
+                                      "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-iphone-12-pro-gold-2020?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1635202844000"
 
-                                    // productList[index].image.toString(),
-                                    // width: 50,
-                                    // height: 50,
-                                    // fit: BoxFit.cover,
+                                      // productList[index].image.toString(),
+                                      // width: 50,
+                                      // height: 50,
+                                      // fit: BoxFit.cover,
 
-                                    ),
-                                title: Text(productList[index].name.toString()),
-                                subtitle:
-                                    Text(productList[index].desc.toString()),
-                                trailing: Text(
-                                    style: TextStyle(
-                                        fontSize: 20,
-                                        fontWeight: FontWeight.bold),
-                                    "\$" + productList[index].price.toString()),
-                              ),
-                            ],
+                                      ),
+                                  title:
+                                      Text(productList[index].name.toString()),
+                                  subtitle:
+                                      Text(productList[index].desc.toString()),
+                                  trailing: Text(
+                                      style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold),
+                                      "\$" +
+                                          productList[index].price.toString()),
+                                ),
+                              ],
+                            ),
                           ),
                         );
                       },
