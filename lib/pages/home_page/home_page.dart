@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'package:crud_api_product_list/pages/product_added_to_next_page.dart';
+import 'package:crud_api_product_list/pages/product_add_update_delete/product_added_to_next_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crud_api_product_list/models/product_model.dart';
 import 'package:http/http.dart' as http;

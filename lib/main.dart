@@ -1,26 +1,19 @@
-import 'package:crud_api_product_list/pages/home_page.dart';
+import 'package:crud_api_product_list/pages/home_page/home_page.dart';
 import 'package:flutter/material.dart';
-
 void main() {
   runApp(const MyApp());
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
-
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Home Page',
+      title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const HomePage(title: 'Home Page'),
+      home: HomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }
