@@ -1,57 +1,31 @@
 class Product {
-  String? _id;
-  String? _name;
-  String? _desc;
-  int? _price;
-  String? _image;
+  int? id;
+  String? name;
+  String? desc;
+  int? price;
+  String? image;
 
-  Product({String? id, String? name, String? desc, int? price, String? image}) {
-    if (id != null) {
-      this._id = id;
-    }
-    if (name != null) {
-      this._name = name;
-    }
-    if (desc != null) {
-      this._desc = desc;
-    }
-    if (price != null) {
-      this._price = price;
-    }
-    if (image != null) {
-      this._image = image;
-    }
-  }
-
-  String? get id => _id;
-  set id(String? id) => _id = id;
-  String? get name => _name;
-  set name(String? name) => _name = name;
-  String? get desc => _desc;
-  set desc(String? desc) => _desc = desc;
-  int? get price => _price;
-  set price(int? price) => _price = price;
-  String? get image => _image;
-  set image(String? image) => _image = image;
+  Product({this.id, this.name, this.desc, this.price, this.image});
 
   Product.fromJson(Map<dynamic, dynamic> json) {
-    _id = json['id'];
-    _name = json['name'];
-    _desc = json['desc'];
-    _price = json['price'];
-    _image = json['image'];
+    id = int.parse(json['id']);
+    name = json['name'];
+    desc = json['desc'];
+    price = json['price'];
+    image = json['image'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['name'] = this._name;
-    data['desc'] = this._desc;
-    data['price'] = this._price;
-    data['image'] = this._image;
+    data['id'] = this.id;
+    data['name'] = this.name;
+    data['desc'] = this.desc;
+    data['price'] = this.price;
+    data['image'] = this.image;
     return data;
   }
 }
+
 
 // [
 //     {

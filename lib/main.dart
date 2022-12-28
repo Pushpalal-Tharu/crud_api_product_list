@@ -1,5 +1,6 @@
-import 'package:crud_api_product_list/pages/home_page/home_page.dart';
+import 'package:crud_api_product_list/pages/home_page.dart';
 import 'package:flutter/material.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -10,10 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: HomePage(
+        title: 'Flutter Demo Home Page',
+      ),
     );
   }
 }
