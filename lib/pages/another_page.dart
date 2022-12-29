@@ -2,35 +2,42 @@ import 'dart:convert';
 import 'package:crud_api_product_list/models/product_model.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class ProductAdded extends StatefulWidget {
-  final Product plist;
+  Product? plist;
 
-  ProductAdded(
+  ProductAdded.first(
     List<Product> productList, {
     super.key,
-    required this.plist,
+    this.plist,
   });
+
+  ProductAdded.second({super.key});
 
   @override
   State<ProductAdded> createState() => _ProductAddedState();
 }
 
 class _ProductAddedState extends State<ProductAdded> {
+  late var productIdController =
+      TextEditingController(text: widget.plist?.id.toString());
   late var productNameController =
-      TextEditingController(text: widget.plist.name.toString());
+      TextEditingController(text: widget.plist?.name.toString());
 
   late var productDescriptionController =
-      TextEditingController(text: widget.plist.desc.toString());
+      TextEditingController(text: widget.plist?.desc.toString());
 
   late var productPriceController =
-      TextEditingController(text: widget.plist.price.toString());
+      TextEditingController(text: widget.plist?.price.toString());
 
   Future<Product>? _futureProduct;
 
   final _formKey = GlobalKey<FormState>();
-
+  //
+  //
+  //
+  //
+  //
   // Post method code.
   Future<Product> addProduct(String name, String desc, int price) async {
     final response = await http.post(
@@ -55,6 +62,43 @@ class _ProductAddedState extends State<ProductAdded> {
     }
   }
 
+  //
+  //
+  //
+  //
+  //
+  // Put Method code.
+  Future<Product> updateProduct(
+      int? id, String name, String desc, int price) async {
+    final response = await http.put(
+      Uri.parse("https://6396d55077359127a023e18b.mockapi.io/product_list/$id"),
+      headers: <String, String>{
+        'content-type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, dynamic>{
+        "name": name,
+        "desc": desc,
+        "price": price,
+      }),
+    );
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      return Product.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception("Failed to update product.");
+    }
+  }
+
+  //
+  //
+  //
+  //
+  //
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -74,9 +118,6 @@ class _ProductAddedState extends State<ProductAdded> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: <Widget>[
                         // Image.network(widget.plist.image.toString()),
-                        Text(widget.plist.name.toString()),
-                        Text(widget.plist.desc.toString()),
-                        Text("\$" + widget.plist.price.toString()),
 
                         //
                         TextFormField(
@@ -133,7 +174,7 @@ class _ProductAddedState extends State<ProductAdded> {
                           height: 40,
                           width: 20,
                           child: ElevatedButton(
-                            child: Text("Add"),
+                            child: Text(getButtonTitle()),
                             onPressed: () {
                               setState(() {
                                 // Validate returns true if the form is valid, or false otherwise.
@@ -142,13 +183,7 @@ class _ProductAddedState extends State<ProductAdded> {
                                   // ScaffoldMessenger.of(context)
                                   //     .showSnackBar(SnackBar(content: Text("Sending")));
                                   // In the real world, you'd often call a server or save the information in a database.
-                                  _futureProduct = addProduct(
-                                    productNameController.text.toString(),
-                                    productDescriptionController.text
-                                        .toString(),
-                                    int.parse(
-                                        productPriceController.text.toString()),
-                                  );
+                                  _futureProduct = addUpdate();
                                   // defaul textfield value
                                   productNameController.clear();
                                   productDescriptionController.clear();
@@ -169,5 +204,30 @@ class _ProductAddedState extends State<ProductAdded> {
         ),
       ),
     );
+  }
+
+  String getButtonTitle() {
+    if (widget.plist != null) {
+      return "Update";
+    } else {
+      return "Add";
+    }
+  }
+
+  Future<Product>? addUpdate() {
+    if (widget.plist != null) {
+      return updateProduct(
+        widget.plist!.id,
+        productNameController.text.toString(),
+        productDescriptionController.text.toString(),
+        int.parse(productPriceController.text.toString()),
+      );
+    } else {
+      return addProduct(
+        productNameController.text.toString(),
+        productDescriptionController.text.toString(),
+        int.parse(productPriceController.text.toString()),
+      );
+    }
   }
 }

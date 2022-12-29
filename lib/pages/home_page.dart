@@ -1,9 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:crud_api_product_list/pages/another_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crud_api_product_list/models/product_model.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key, required this.title});
@@ -53,12 +53,37 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  // Delete Method code.
+  Future<Product> deleteProduct(String id) async {
+    final http.Response response = await http.delete(
+      Uri.parse("https://6396d55077359127a023e18b.mockapi.io/product_list/$id"),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      return Product.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception("Failed to delete product.");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
           title: Text(widget.title),
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ProductAdded.second()),
+            );
+          },
         ),
         body: Column(
           children: [
@@ -90,7 +115,7 @@ class _HomePageState extends State<HomePage> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => ProductAdded(
+                                    builder: (context) => ProductAdded.first(
                                         productList,
                                         plist: productList[index])),
                               );
@@ -100,7 +125,7 @@ class _HomePageState extends State<HomePage> {
                               margin: EdgeInsets.all(10),
                               color: Colors.white70,
                               child: Column(
-                                children: [
+                                children: <Widget>[
                                   ListTile(
                                     leading: Image.network(
                                         "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-iphone-12-pro-gold-2020?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1635202844000"
@@ -115,14 +140,37 @@ class _HomePageState extends State<HomePage> {
                                         productList[index].name.toString()),
                                     subtitle: Text(
                                         productList[index].desc.toString()),
-                                    trailing: Text(
-                                        style: TextStyle(
-                                            fontSize: 20,
-                                            fontWeight: FontWeight.bold),
-                                        "\$" +
-                                            productList[index]
-                                                .price
-                                                .toString()),
+                                    trailing: Container(
+                                      width: 90,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                              style: TextStyle(
+                                                  fontSize: 20,
+                                                  fontWeight: FontWeight.bold),
+                                              "\$" +
+                                                  productList[index]
+                                                      .price
+                                                      .toString()),
+                                          Expanded(
+                                            child: IconButton(
+                                              onPressed: () {
+                                                setState(() {
+                                                  futureProduct = deleteProduct(
+                                                          snapshot
+                                                              .data![index].id
+                                                              .toString())
+                                                      as Future<List<Product>>;
+                                                });
+                                              },
+                                              icon: Icon(Icons.delete),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -142,12 +190,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ),
           ],
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            SharedPreferences sp = await SharedPreferences.getInstance();
-          },
-          child: Icon(Icons.add),
         ),
       ),
     );
