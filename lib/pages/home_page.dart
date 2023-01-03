@@ -5,6 +5,7 @@ import 'package:crud_api_product_list/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crud_api_product_list/models/product_model.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
@@ -20,6 +21,9 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     futureProduct = fetchProduct();
+    //
+    //
+    getName();
   }
 
 // List of products coming from api.
@@ -30,7 +34,8 @@ class _HomePageState extends State<HomePage> {
   Future<List<Product>> fetchProduct() async {
     // Encoded data from the api.
     final response = await http.get(
-        Uri.parse("https://6396d55077359127a023e18b.mockapi.io/product_list"));
+      Uri.parse("https://6396d55077359127a023e18b.mockapi.io/product_list"),
+    );
     // Decoded data
     var data = jsonDecode(response.body);
     // clearing the list item.
@@ -70,19 +75,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  String obtainName = "";
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text("Welcome${LoginPageState.KEYNAME}"),
+          title: Text("Welcome${obtainName}"),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => ProductAdded.second()),
+              MaterialPageRoute(
+                builder: (context) => ProductAdded.second(),
+              ),
             );
           },
         ),
@@ -130,15 +139,14 @@ class _HomePageState extends State<HomePage> {
                                   ListTile(
                                     leading: Image.network(
                                         "https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/refurb-iphone-12-pro-gold-2020?wid=572&hei=572&fmt=jpeg&qlt=95&.v=1635202844000"
-
                                         // productList[index].image.toString(),
                                         // width: 50,
                                         // height: 50,
                                         // fit: BoxFit.cover,
-
                                         ),
                                     title: Text(
-                                        productList[index].name.toString()),
+                                      productList[index].name.toString(),
+                                    ),
                                     subtitle: Text(
                                         productList[index].desc.toString()),
                                     trailing: Container(
@@ -194,5 +202,13 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
     );
+  }
+
+  Future<void> getName() async {
+    final sharedpref = await SharedPreferences.getInstance();
+
+    setState(() {
+      obtainName = sharedpref.getString(LoginPageState.KEYNAME)!;
+    });
   }
 }

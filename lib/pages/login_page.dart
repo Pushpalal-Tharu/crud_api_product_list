@@ -14,19 +14,8 @@ class LoginPage extends StatefulWidget {
 class LoginPageState extends State<LoginPage> {
   var nameController = TextEditingController();
   var passwordController = TextEditingController();
-  static String KEYNAME = "Name";
 
-  @override
-  void initState() {
-    super.initState();
-    isLogin();
-  }
-
-  Future<void> isLogin() async {
-    final sharedprefs = await SharedPreferences.getInstance();
-    KEYNAME = sharedprefs.getString(KEYNAME) ?? "";
-    setState(() {});
-  }
+  static String KEYNAME = "name";
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +54,16 @@ class LoginPageState extends State<LoginPage> {
                 // If Successfully Logged in (Creds are Correct)
                 // Obtain shared preferences.
                 final sharedprefs = await SharedPreferences.getInstance();
-                // Save an boolean value to "isLoggedIn" key.
+                // Save an boolean value to "" key.
                 sharedprefs.setBool(SplashPageState.KEYLOGIN, true);
-                // Save an String Value to "name" key.
+                // Save an String Value to "" key.
                 sharedprefs.setString(KEYNAME, nameController.text.toString());
                 //
+                setState(() {
+                  sharedprefs.getString(KEYNAME);
+                });
+
                 //
-                KEYNAME = sharedprefs.getString(KEYNAME) ?? "";
-
-                setState(() {});
-
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

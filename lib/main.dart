@@ -32,6 +32,7 @@ class SplashPage extends StatefulWidget {
 
 class SplashPageState extends State<SplashPage> {
   static const String KEYLOGIN = "login";
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +60,6 @@ class SplashPageState extends State<SplashPage> {
     var sharedpref = await SharedPreferences.getInstance();
 
     var isLoggedIn = sharedpref.getBool(KEYLOGIN);
-
     Timer(Duration(seconds: 2), (() {
       if (isLoggedIn != null) {
         if (isLoggedIn) {
