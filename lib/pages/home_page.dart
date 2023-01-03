@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:crud_api_product_list/pages/another_page.dart';
+import 'package:crud_api_product_list/pages/login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:crud_api_product_list/models/product_model.dart';
 import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
-  HomePage({super.key, required this.title});
-  final String title;
+  HomePage({super.key});
+
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -74,7 +75,7 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(
-          title: Text(widget.title),
+          title: Text("Welcome${LoginPageState.KEYNAME}"),
         ),
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
